@@ -20,7 +20,7 @@ Schedule Manager is a web application that allows users to manage their schedule
 
 ## Installation
 
-1. Clone the repository: `git clone [https://github.com/your-username/schedule-manager.git](https://github.com/curtiskokuloku/Schedule-Manager.git)`
+1. Clone the repository: `git clone https://github.com/your-username/schedule-manager.git`
 2. Install dependencies: `npm install`
 3. Set up MySQL database and update the connection details in index.js
 4. Start the server: `node index.js`
