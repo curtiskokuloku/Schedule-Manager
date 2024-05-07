@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+  <title>My Schedule</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expanded navbar-light bg-dark mb-5">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/schedule">Schedule</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/addEvent">Add Event</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link active" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="container mb-5">
+    <div class="alert alert-secondary" role="alert">
+      Click on a day to see its events
+    </div>
+  </div>
+  <div class="container mb-3">
+    <ul id="days" class="nav nav-tabs nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Sunday')">Sunday</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Monday')">Monday</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Tuesday')">Tuesday</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Wednesday')">Wednesday</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Thursday')">Thursday</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Friday')">Friday</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="formTable('Saturday')">Saturday</a>
+      </li>
+    </ul><br>
+    <br>
+    <div class="container">
+      <table class="table table-striped" id="scheduleTable">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Time</th>
+            <th scope="col">Location</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Extra Information</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    function formTable(day) {
+      $('#days li a').removeClass("active");
+      $(`#days li:contains(${day}) a`).addClass("active");
+      clearTable();
+
+      // Make request and fill table with events for the day
+      fetch(`/getSchedule?day=${day}`)
+        .then(response => response.json())
+        .then(data => {
+          // Populate the table with the received events
+          data.forEach(event => {
+            addRowToSchedule(event);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function addRowToSchedule(event) {
+      let extraInfo = event.event_info;
+      if (event.event_url) {
+        extraInfo = `<a href="${event.event_url}" target="_blank">${event.event_info}</a>`;
+      }
+      let row = `
+        <tr data-event-id="${event.event_id}">
+          <td>${event.event_event}
+            <button class="btn btn-danger btn-sm delete-btn" style="display: none">Delete</button>
+            <button class="btn btn-primary btn-sm edit-btn" style="display: none">Edit</button>
+          </td>
+          <td>${event.event_start} - ${event.event_end}</td>
+          <td>${event.event_location}</td>
+          <td>${event.event_phone}</td>
+          <td>${extraInfo}</td>
+        </tr>`;
+      $('#scheduleTable tbody').append(row);
+    }
+
+    function clearTable() {
+      $('#scheduleTable tbody').empty();
+    }
+
+    // Show delete and edit button on hover
+    $('#scheduleTable tbody').on('mouseenter', 'tr', function () {
+      $(this).find('.delete-btn').show().css('display', 'block');
+      $(this).find('.edit-btn').show().css('display', 'inline-block');
+    }).on('mouseleave', 'tr', function () {
+      $(this).find('.delete-btn').hide();
+      $(this).find('.edit-btn').hide();
+    }).on('mouseenter', 'td', function () {
+      $(this).closest('tr').find('.delete-btn').appendTo($(this)).css('display', 'block');
+      $(this).closest('tr').find('.edit-btn').appendTo($(this)).css('display', 'inline-block');
+    });
+
+    // Handle delete button click
+    $('#scheduleTable tbody').on('click', '.delete-btn', function () {
+      if (confirm('Are you sure you want to delete this event?')) {
+        const eventId = $(this).closest('tr').data('event-id');
+        fetch(`/deleteEvent/${eventId}`, {
+          method: 'DELETE'
+        })
+          .then(response => {
+            if (response.ok) {
+              $(this).closest('tr').remove(); // Remove row from table
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      }
+    });
+
+    // Handle edit button click
+    $('#scheduleTable tbody').on('click', '.edit-btn', function () {
+      const eventId = $(this).closest('tr').data('event-id');
+      window.location.href = `/schedule/edit/${eventId}`; // Redirect to edit page with event ID
+    });
+  </script>
+</body>
+
+</html>

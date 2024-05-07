@@ -1,0 +1,42 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='utf-8')
+		meta(name='viewport' content='width=device-width, initial-scale=1')
+		link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+		link(rel='stylesheet' type='text/css' href='static/css/style.css')
+		title Login Page
+	body
+		.jumbotron
+			h2 Login Page
+			p Please enter your user name and password. Both are case sensitive.
+		form#loginForm(action='/login' method='post')
+			.container
+				label(for='username')
+					b Username:
+				input(type='text' placeholder='Enter Username' name='username' required='')
+				label(for='password')
+					b Password:
+				input(type='password' placeholder='Enter Password' name='password' required='')
+				button#loginBtn.btn.btn-primary.btn-block(type='submit') Login
+		#errMsg
+		script.
+			document.getElementById("loginBtn").addEventListener("submit", function (e) {
+				e.preventDefault();
+				const formData = new FormData(this);
+				fetch('/login', {
+					method: 'POST',
+					body: formData
+				})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Invalid username or password');
+					}
+					window.location.href = '/schedule';
+				})
+				.catch(error => {
+					document.getElementById('errMsg').innerHTML = error.message;
+				});
+			});

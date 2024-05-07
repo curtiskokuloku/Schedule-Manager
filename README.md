@@ -2,6 +2,8 @@
 
 Schedule Manager is a web application that allows users to manage their schedules by adding, editing, and deleting events. It provides a user-friendly interface for viewing events on different days of the week and allows users to toggle between light and dark mode for better readability.
 
+<img src="schedule_manager_demo.gif"/>
+
 ## Features
 
 - **View Schedule**: Users can view their schedule for each day of the week and see details of each event, including the event name, time, location, phone number, and extra information.
@@ -20,11 +22,11 @@ Schedule Manager is a web application that allows users to manage their schedule
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/schedule-manager.git`
+1. Clone the repository: `git clone` <https://github.com/your-username/schedule-manager.git>
 2. Install dependencies: `npm install`
 3. Set up MySQL database and update the connection details in index.js
 4. Start the server: `node index.js`
-5. Access the application at `http://localhost:9003`
+5. Access the application at <http://localhost:9003>
 
 ## Usage
 
@@ -34,6 +36,21 @@ Schedule Manager is a web application that allows users to manage their schedule
 4. Edit Event: To edit an existing event, click on the Edit button next to the event. Update the event details and submit the form.
 5. Delete Event: To delete an event, click on the Delete button next to the event.
 6. Toggle Dark/Light Mode: Use the toggle switch at the top of the page to switch between dark and light mode.
+
+## Database Setup
+
+**READ CAREFULLY**
+
+To set up the database for the Schedule Manager application, follow these steps:
+
+1. **Check SQL Files**: Check the files in the 'sql_js' directory of the project to set up the database. There should be SQL files for creating tables and inserting initial data.
+2. **Create Database**: If you're using your own database, create a new database for the application.
+3. **Update Connection Details**: In the 'index.js' file, update the MySQL connection details to match your database configuration.
+4. **Verify Information**: Verify that all information in the 'index.js' file is correct, including the *secret key for sessions*, database host, user, password, and database name.
+5. **Run Application**: Start the server by running node 'index.js' in the terminal. Access the application at <http://localhost:9003>.
+6. **Set Up Tables**: If you're using the provided SQL files, run them in your MySQL database to create the necessary tables.
+7. **Verify Data**: Verify that the tables have been created successfully and contain the necessary data.
+8. **Test Application**: Test the application to ensure that it is running correctly and that you can add, edit, and delete events.
 
 ## Contributing
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <title>Login Page</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h2>Login Page</h2>
+        <p>Please enter your user name and password. Both are case sensitive.</p>
+    </div>
+
+    <form id="loginForm" action="/login" method="post">
+        <div class="container">
+            <label for="username"><b>Username:</b></label>
+            <input type="text" placeholder="Enter Username" name="username" required>
+
+            <label for="password"><b>Password:</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+
+            <button id="loginBtn" type="submit" class="btn btn-primary btn-block">Login</button>
+        </div>
+    </form>
+
+    <div id="errMsg"></div>
+
+    <script>
+        document.getElementById("loginBtn").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Invalid username or password');
+                    }
+                    window.location.href = '/schedule';
+                })
+                .catch(error => {
+                    document.getElementById('errMsg').innerHTML = error.message;
+                });
+        });
+    </script>
+</body>
+
+</html>

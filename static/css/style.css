@@ -1,0 +1,39 @@
+.jumbotron {
+    text-align: center;
+    background: DarkSeaGreen !important;
+}
+
+.jumbotron h2 {
+    text-align: center;
+}
+
+.jumbotron p {
+    font-size: 11pt;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border-style: solid #ccc;
+    box-sizing: border-box;
+}
+
+.container {
+    padding: 16px;
+}
+
+#errMsg {
+    text-align: center;
+    color: red;
+}
+
+#tryAgainBtn {
+    background-color: darkgreen;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+}

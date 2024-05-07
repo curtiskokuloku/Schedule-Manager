@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+    link(rel='stylesheet', type='text/css', href='static/css/styles.css')
+    title Schedule Manager
+  body
+    br
+    br
+    .container
+      .jumbotron
+        h1.display-4 Welcome to Schedule Manager
+        p.lead From here you'll be able to:
+        ul.list-group
+          li.list-group-item
+            | View your current schedule for a particular day
+          li.list-group-item
+            | Add new events to your schedule
+          li.list-group-item
+            | Edit and delete exisiting events
+    .row
+      .col-md-1
+      .col-md-10
+        button#myButton.btn.btn-primary.btn-block(type='button', onclick="location.href ='/login'")
+          | Navigate to website
+      .col-md-1
